@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using CostsDiary.Business;
+using CostsDiary.Services;
+using CostsDiary.Web.Models;
+using CostsDiary.Web.Models.Mapping;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,21 +17,24 @@ namespace CostsDiary.Web.Controllers
         {
             _costTypeService = costTypeService;
         }
-        // GET: CostType
+
         public async Task<IActionResult> Index()
         {
             var results = await _costTypeService.GetAll();
-            return View(results);
+
+            return View(results?.Select(r =>
+                r.ToModel()
+            ));
         }
 
         // GET: CostType/Details/5
-        public ActionResult Details(int id)
+        public async Task<ActionResult> Details(int id)
         {
             return View();
         }
 
         // GET: CostType/Create
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
             return View();
         }
@@ -37,13 +42,13 @@ namespace CostsDiary.Web.Controllers
         // POST: CostType/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(IFormCollection collection)
+        public async Task<IActionResult> Create(CostTypeModel model)
         {
             try
             {
                 var newItem = await _costTypeService.Add(new Business.Entities.CostType()
                     {
-                        CostTypeDescription = collection[nameof(Business.Entities.CostType.CostTypeDescription)]
+                        CostTypeDescription = model.CostTypeDescription
                     });
 
                 return RedirectToAction(nameof(Index));
@@ -57,18 +62,22 @@ namespace CostsDiary.Web.Controllers
         // GET: CostType/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
-            var model = await _costTypeService.GetById(id);
-            return View(model);
+            var entity = await _costTypeService.GetById(id);
+            return View(entity.ToModel());
         }
 
         // POST: CostType/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<IActionResult> Edit(int id, CostTypeModel model)
         {
             try
             {
-                // TODO: Add update logic here
+                var item = await _costTypeService.Update(new Business.Entities.CostType()
+                {
+                    CostTypeId = id,
+                    CostTypeDescription = model.CostTypeDescription
+                });
 
                 return RedirectToAction(nameof(Index));
             }
@@ -79,19 +88,20 @@ namespace CostsDiary.Web.Controllers
         }
 
         // GET: CostType/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            return View();
+            var entity = await _costTypeService.GetById(id);
+            return View(entity.ToModel());
         }
 
         // POST: CostType/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<IActionResult> Delete(int id, CostTypeModel model)
         {
             try
             {
-                // TODO: Add delete logic here
+                await _costTypeService.Delete(id);
 
                 return RedirectToAction(nameof(Index));
             }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace CostsDiary.Business
+namespace CostsDiary.Services
 {
     public interface ICostTypeService
     {

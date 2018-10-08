@@ -1,11 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using CostsDiary.Business.Entities;
 using CostsDiary.Data.Repositories;
-using CostsDiary.Business.Entities.Mapping;
 
-namespace CostsDiary.Business
+namespace CostsDiary.Services
 {
     public class CostTypeService : ICostTypeService
     {
@@ -18,9 +16,7 @@ namespace CostsDiary.Business
 
         public async Task<CostType> Add(CostType item)
         {
-            var dto = await _costTypeRepository.Add(item.ToDto());
-
-            return dto.ToEntity();
+            return await _costTypeRepository.Add(item);
         }
 
         public async Task Delete(int id)
@@ -30,25 +26,17 @@ namespace CostsDiary.Business
 
         public async Task<IList<CostType>> GetAll()
         {
-            var results = await _costTypeRepository.GetAll();
-
-            return results?.Select(r =>
-                r.ToEntity()
-            ).ToList();
+            return await _costTypeRepository.GetAll();
         }
 
         public async Task<CostType> GetById(int id)
         {
-            var dto = await _costTypeRepository.GetById(id);
-
-            return dto.ToEntity();
+            return await _costTypeRepository.GetById(id);
         }
 
         public async Task<CostType> Update(CostType item)
         {
-            var dto = await _costTypeRepository.Update(item.ToDto());
-
-            return dto.ToEntity();
+            return await _costTypeRepository.Update(item);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<CostsDiary.Business.Entities.CostType>
+﻿@model IEnumerable<CostTypeModel>
 
 @{
     ViewData["Title"] = "Cost Types";
@@ -32,7 +32,7 @@
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id=item.CostTypeId }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("Delete", "Delete", new { id = item.CostTypeId })
             </td>
         </tr>
 }

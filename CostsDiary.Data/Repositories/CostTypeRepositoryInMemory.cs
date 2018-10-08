@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using CostsDiary.Data.Dto;
+using CostsDiary.Business.Entities;
 using System.Linq;
 
 namespace CostsDiary.Data.Repositories

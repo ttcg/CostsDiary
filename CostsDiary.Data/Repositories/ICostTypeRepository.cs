@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CostsDiary.Data.Dto;
+using CostsDiary.Business.Entities;
 
 namespace CostsDiary.Data.Repositories
 {
