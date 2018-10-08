@@ -1,0 +1,40 @@
+﻿@model IEnumerable<CostsDiary.Business.Entities.CostType>
+
+@{
+    ViewData["Title"] = "Cost Types";
+}
+
+<h2>Cost Types</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Description
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CostTypeId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CostTypeDescription)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.CostTypeId }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

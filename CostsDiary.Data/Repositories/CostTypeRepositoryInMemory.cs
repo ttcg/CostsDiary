@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using CostsDiary.Data.Entities;
+using CostsDiary.Data.Dto;
 using System.Linq;
 
 namespace CostsDiary.Data.Repositories
@@ -59,8 +57,8 @@ namespace CostsDiary.Data.Repositories
         public async Task<CostType> Add(CostType item)
         {
             return await Task.Run(() =>
-            {
-                item.CostTypeId = _currentId++;
+            {                
+                item.CostTypeId = ++_currentId;
                 _costTypes.Add(item);
                 return item;
             });

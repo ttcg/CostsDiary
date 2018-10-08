@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CostsDiary.Data.Entities
+namespace CostsDiary.Data.Dto
 {
     public class CostType
     {
