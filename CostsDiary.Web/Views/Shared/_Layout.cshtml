@@ -41,6 +41,7 @@
     <partial name="_CookieConsentPartial" />
 
     <div class="container body-content">
+        @{await Html.RenderPartialAsync("_Notifications");}
         @RenderBody()
         <hr />
         <footer>

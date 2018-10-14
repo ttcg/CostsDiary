@@ -1,0 +1,33 @@
+﻿@{
+    //success messages
+    var successMessages = new List<string>();
+    if (TempData["notifications.success"] != null)
+    {
+        successMessages.AddRange(TempData["notifications.success"] as IList<string>);
+    }
+
+    //error messages
+    var errorMessages = new List<string>();
+    if (TempData["notifications.error"] != null)
+    {
+        errorMessages.AddRange(TempData["notifications.error"] as IList<string>);
+    }
+}
+@if (successMessages.Count > 0)
+{
+    <div class="alert alert-success" id="dvMasterMsg">
+        @Html.Raw(string.Join("<br />", successMessages.ToArray()))
+    </div>
+}
+@if (errorMessages.Count > 0)
+{
+    <div class="alert alert-danger" id="dvMasterMsg">
+        @Html.Raw(string.Join("<br />", errorMessages.ToArray()))
+    </div>
+}
+@if (successMessages.Count == 0 && errorMessages.Count == 0)
+{
+    <div id="dvMasterMsg"></div>
+}
+
+<h1>Notifications</h1>

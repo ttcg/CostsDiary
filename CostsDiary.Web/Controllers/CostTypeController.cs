@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CostsDiary.Web.Controllers
 {
-    public class CostTypeController : Controller
+    public class CostTypeController : BaseController
     {
         private readonly ICostTypeService _costTypeService; 
         public CostTypeController(ICostTypeService costTypeService)
@@ -25,16 +25,10 @@ namespace CostsDiary.Web.Controllers
             return View(results?.Select(r =>
                 r.ToModel()
             ));
-        }
-
-        // GET: CostType/Details/5
-        public async Task<ActionResult> Details(int id)
-        {
-            return View();
-        }
+        }        
 
         // GET: CostType/Create
-        public async Task<ActionResult> Create()
+        public IActionResult Create()
         {
             return View();
         }
