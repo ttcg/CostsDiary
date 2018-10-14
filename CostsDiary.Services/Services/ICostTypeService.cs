@@ -1,4 +1,4 @@
-﻿using CostsDiary.Business.Entities;
+﻿using CostsDiary.Domain.Entities;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

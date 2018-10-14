@@ -5,11 +5,15 @@ VisualStudioVersion = 15.0.28010.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CostsDiary.Web", "CostsDiary.Web\CostsDiary.Web.csproj", "{368C2B90-B1F1-43B1-87FF-5CA3F149CE1B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CostsDiary.Business", "CostsDiary.Business\CostsDiary.Business.csproj", "{E0F92781-0AB1-4689-975F-3483F884769A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CostsDiary.Domain", "CostsDiary.Business\CostsDiary.Domain.csproj", "{E0F92781-0AB1-4689-975F-3483F884769A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CostsDiary.Data", "CostsDiary.Data\CostsDiary.Data.csproj", "{B8B21CA5-DD3E-44BB-9392-209CDD9221FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CostsDiary.Services", "CostsDiary.Services\CostsDiary.Services.csproj", "{74EEB851-6EEB-4473-ADD1-4AB7986216FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CostsDiary.Services", "CostsDiary.Services\CostsDiary.Services.csproj", "{74EEB851-6EEB-4473-ADD1-4AB7986216FA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{6F348CFE-DFD3-4443-88A2-BB7F8C2A53DE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CostsDiary.Services.Tests", "CostsDiary.Services.Tests\CostsDiary.Services.Tests.csproj", "{8B538B84-B93C-47CC-BBE5-195209C7D920}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,9 +37,16 @@ Global
 		{74EEB851-6EEB-4473-ADD1-4AB7986216FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74EEB851-6EEB-4473-ADD1-4AB7986216FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74EEB851-6EEB-4473-ADD1-4AB7986216FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B538B84-B93C-47CC-BBE5-195209C7D920}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B538B84-B93C-47CC-BBE5-195209C7D920}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B538B84-B93C-47CC-BBE5-195209C7D920}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B538B84-B93C-47CC-BBE5-195209C7D920}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8B538B84-B93C-47CC-BBE5-195209C7D920} = {6F348CFE-DFD3-4443-88A2-BB7F8C2A53DE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6BD2F929-448D-4796-BA02-CC677AF7DFFD}

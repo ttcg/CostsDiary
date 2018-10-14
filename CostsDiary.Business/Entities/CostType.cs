@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CostsDiary.Business.Entities
+namespace CostsDiary.Domain.Entities
 {
     public class CostType
     {

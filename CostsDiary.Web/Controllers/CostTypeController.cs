@@ -40,7 +40,7 @@ namespace CostsDiary.Web.Controllers
         {
             try
             {
-                var newItem = await _costTypeService.Add(new Business.Entities.CostType()
+                var newItem = await _costTypeService.Add(new Domain.Entities.CostType()
                     {
                         CostTypeDescription = model.CostTypeDescription
                     });
@@ -67,7 +67,7 @@ namespace CostsDiary.Web.Controllers
         {
             try
             {
-                var item = await _costTypeService.Update(new Business.Entities.CostType()
+                var item = await _costTypeService.Update(new Domain.Entities.CostType()
                 {
                     CostTypeId = id,
                     CostTypeDescription = model.CostTypeDescription

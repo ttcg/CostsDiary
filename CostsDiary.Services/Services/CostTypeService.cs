@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using CostsDiary.Business.Entities;
-using CostsDiary.Data.Repositories;
+using CostsDiary.Domain.Entities;
+using CostsDiary.Services.Repositories;
 
 namespace CostsDiary.Services
 {

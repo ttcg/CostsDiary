@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CostsDiary.Business.Entities;
+using CostsDiary.Domain.Entities;
 
-namespace CostsDiary.Data.Repositories
+namespace CostsDiary.Services.Repositories
 {
     public interface ICostTypeRepository
     {

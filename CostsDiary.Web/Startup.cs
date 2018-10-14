@@ -1,5 +1,6 @@
-﻿using CostsDiary.Services;
-using CostsDiary.Data.Repositories;
+﻿using CostsDiary.Data.Repositories;
+using CostsDiary.Services;
+using CostsDiary.Services.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;

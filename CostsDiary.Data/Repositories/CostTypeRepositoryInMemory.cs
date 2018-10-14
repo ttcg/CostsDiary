@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using CostsDiary.Business.Entities;
+using CostsDiary.Domain.Entities;
+using CostsDiary.Services.Repositories;
 using System.Linq;
 
 namespace CostsDiary.Data.Repositories
@@ -88,11 +89,7 @@ namespace CostsDiary.Data.Repositories
         {
             return await Task.Run(() =>
             {
-                var item = _costTypes.SingleOrDefault(c => c.CostTypeId == id);
-                if (item == null)
-                    throw new KeyNotFoundException($"The given id: {id} is not found in the list.");
-
-                return item;
+                return _costTypes.SingleOrDefault(c => c.CostTypeId == id);
             });
         }
 
@@ -101,7 +98,7 @@ namespace CostsDiary.Data.Repositories
             return await Task.Run(() =>
             {
                 var oldItem = _costTypes.SingleOrDefault(c => c.CostTypeId == item.CostTypeId);
-                if (item == null)
+                if (oldItem == null)
                     throw new KeyNotFoundException($"The given id: {item.CostTypeId} is not found in the list.");
 
                 oldItem.CostTypeDescription = item.CostTypeDescription;
