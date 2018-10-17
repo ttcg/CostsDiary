@@ -1,33 +1,28 @@
-﻿@{
-    //success messages
-    var successMessages = new List<string>();
-    if (TempData["notifications.success"] != null)
-    {
-        successMessages.AddRange(TempData["notifications.success"] as IList<string>);
-    }
+﻿@{   
+    var notifications = TempData.GetNotifications();
 
-    //error messages
-    var errorMessages = new List<string>();
-    if (TempData["notifications.error"] != null)
+    if (notifications.TryGetValue(NotificationType.Success.ToString(), out var successMessages))
     {
-        errorMessages.AddRange(TempData["notifications.error"] as IList<string>);
+        <div class="alert alert-success" id="dvMasterMsg">
+            @Html.Raw(string.Join("<br />", successMessages.ToArray()))
+        </div>
+    }
+    else if (notifications.TryGetValue(NotificationType.Error.ToString(), out var errorMessages))
+    {
+        <div class="alert alert-danger" id="dvMasterMsg">
+            @Html.Raw(string.Join("<br />", errorMessages.ToArray()))
+        </div>
+    }
+    else if (notifications.TryGetValue(NotificationType.Warning.ToString(), out var warningMessages))
+    {
+        <div class="alert alert-warning" id="dvMasterMsg">
+            @Html.Raw(string.Join("<br />", warningMessages.ToArray()))
+        </div>
+    }
+    else if (notifications.TryGetValue(NotificationType.Info.ToString(), out var infoMessages))
+    {
+        <div class="alert alert-info" id="dvMasterMsg">
+            @Html.Raw(string.Join("<br />", infoMessages.ToArray()))
+        </div>
     }
 }
-@if (successMessages.Count > 0)
-{
-    <div class="alert alert-success" id="dvMasterMsg">
-        @Html.Raw(string.Join("<br />", successMessages.ToArray()))
-    </div>
-}
-@if (errorMessages.Count > 0)
-{
-    <div class="alert alert-danger" id="dvMasterMsg">
-        @Html.Raw(string.Join("<br />", errorMessages.ToArray()))
-    </div>
-}
-@if (successMessages.Count == 0 && errorMessages.Count == 0)
-{
-    <div id="dvMasterMsg"></div>
-}
-
-<h1>Notifications</h1>

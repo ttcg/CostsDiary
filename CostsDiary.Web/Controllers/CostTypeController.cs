@@ -18,9 +18,12 @@ namespace CostsDiary.Web.Controllers
             _costTypeService = costTypeService;
         }
 
-        public async Task<IActionResult> Index()
-        {
+        public async Task<IActionResult> Index(int? id)
+        {   
             var results = await _costTypeService.GetAll();
+
+            if (id.HasValue)
+                results = results.Where(r => r.CostTypeId == id).ToList();
 
             return View(results?.Select(r =>
                 r.ToModel()
@@ -45,10 +48,13 @@ namespace CostsDiary.Web.Controllers
                         CostTypeDescription = model.CostTypeDescription
                     });
 
-                return RedirectToAction(nameof(Index));
+                AddSuccessMessage(Constants.MessageTexts.SuccessMessage);
+
+                return RedirectToAction(nameof(Index), new { id = newItem.CostTypeId });
             }
             catch
             {
+                AddErrorMessage(Constants.MessageTexts.ErrorMessage);
                 return View();
             }
         }
@@ -73,10 +79,13 @@ namespace CostsDiary.Web.Controllers
                     CostTypeDescription = model.CostTypeDescription
                 });
 
-                return RedirectToAction(nameof(Index));
+                AddSuccessMessage(Constants.MessageTexts.SuccessMessage);
+
+                return RedirectToAction(nameof(Index), new { id });
             }
             catch
             {
+                AddErrorMessage(Constants.MessageTexts.ErrorMessage);
                 return View();
             }
         }
@@ -97,10 +106,12 @@ namespace CostsDiary.Web.Controllers
             {
                 await _costTypeService.Delete(id);
 
+                AddSuccessMessage(Constants.MessageTexts.SuccessMessage);
                 return RedirectToAction(nameof(Index));
             }
             catch
             {
+                AddErrorMessage(Constants.MessageTexts.ErrorMessage);
                 return View();
             }
         }
