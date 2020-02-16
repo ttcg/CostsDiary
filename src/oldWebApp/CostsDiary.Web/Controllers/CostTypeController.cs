@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using CostsDiary.Services;
 using CostsDiary.Web.Models;
 using CostsDiary.Web.Models.Mapping;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CostsDiary.Web.Controllers
@@ -49,7 +46,7 @@ namespace CostsDiary.Web.Controllers
                     });
 
                 AddSuccessMessage(Constants.MessageTexts.SuccessMessage);
-
+                
                 return RedirectToAction(nameof(Index), new { id = newItem.CostTypeId });
             }
             catch
