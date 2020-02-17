@@ -48,5 +48,12 @@ namespace CostsDiary.Api.Web.Controllers
                 CostTypeName = record.CostTypeName
             });
         }
+
+        [HttpOptions]
+        public IActionResult GetOptions()
+        {
+            Response.Headers.Add("allow", "GET");
+            return Ok();
+        }
     }
 }

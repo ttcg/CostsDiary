@@ -66,6 +66,13 @@ namespace CostsDiary.Api.Web.Controllers
             });
         }
 
+        [HttpOptions]
+        public IActionResult GetOptions()
+        {
+            Response.Headers.Add("allow", "GET,OPTIONS,POST,PUT,DELETE");
+            return Ok();
+        }
+
         private CostTypeViewModel GetCostTypeViewModel(IEnumerable<CostType> costTypes, Guid costTypeId)
         {
             var costType = costTypes.SingleOrDefault(c => c.CostTypeId == costTypeId);
