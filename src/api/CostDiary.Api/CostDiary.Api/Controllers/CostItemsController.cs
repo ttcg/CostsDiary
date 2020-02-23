@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CostDiary.Api.Data.Repositories;
 using CostsDiary.Api.Data.Entities;
 using CostsDiary.Api.Web.ViewModels;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CostsDiary.Api.Web.Controllers
@@ -25,7 +26,7 @@ namespace CostsDiary.Api.Web.Controllers
 
         // GET: api/CostItems
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<CostTypeViewModel>>> Get()
+        public async Task<ActionResult<IEnumerable<CostItemViewModel>>> Get()
         {
             var results = await _costItemsRepository.GetAll();
 
@@ -46,8 +47,8 @@ namespace CostsDiary.Api.Web.Controllers
         }
 
         // GET: api/CostItems/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<CostTypeViewModel>> Get(Guid id)
+        [HttpGet("{id}", Name = "GetById")]
+        public async Task<ActionResult<CostItemViewModel>> GetById(Guid id)
         {
             var record = await _costItemsRepository.GetById(id);
 
@@ -64,6 +65,82 @@ namespace CostsDiary.Api.Web.Controllers
                 Amount = record.Amount,
                 DateUsed = record.DateUsed
             });
+        }
+
+        // POST: api/CostItems/
+        [HttpPost]
+        public async Task<ActionResult<CostItemViewModel>> Add([FromBody] CostItemCreateViewModel model)
+        {
+            var entity = new CostItem
+            {
+                Amount = model.Amount,
+                CostTypeId = model.CostTypeId,
+                DateUsed = model.DateUsed,
+                ItemName = model.ItemName
+            };
+
+            var costTypes = await _costTypesRepository.GetAll();
+
+            if (costTypes.Any(x => x.CostTypeId == model.CostTypeId) == false)
+                return NotFound("CostTypeId does not exist");
+
+            var record = await _costItemsRepository.Add(entity);            
+
+            return CreatedAtRoute("GetById",
+                new { Id = record.CostItemId },
+                new CostItemViewModel
+                {
+                    CostItemId = record.CostItemId,
+                    ItemName = record.ItemName,
+                    CostType = GetCostTypeViewModel(costTypes, record.CostTypeId),
+                    Amount = record.Amount,
+                    DateUsed = record.DateUsed
+                });
+        }
+
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> Update(Guid id, [FromBody] JsonPatchDocument<CostItemPatchViewModel> patchDocument)
+        {
+            {
+                var costItem = await _costItemsRepository.GetById(id);
+
+                if (costItem == null)
+                    return NotFound();
+
+                var model = new CostItemPatchViewModel
+                {
+                    Amount = costItem.Amount,
+                    ItemName = costItem.ItemName,
+                    CostTypeId = costItem.CostTypeId,
+                    DateUsed = costItem.DateUsed
+                };
+
+                patchDocument.ApplyTo(model);
+
+                // auto validation by using validator
+                if (!TryValidateModel(model))
+                    return ValidationProblem(ModelState);
+
+                // custom validation
+                var costTypes = await _costTypesRepository.GetAll();
+                if (costTypes.Any(x => x.CostTypeId == model.CostTypeId) == false)
+                    return NotFound("CostTypeId does not exist");
+
+                // copy the changes back to original from patched Model
+                MapPatchedModelToCostItem(costItem, model);
+
+                await _costItemsRepository.Update(costItem);
+
+                return NoContent();
+            }
+
+            void MapPatchedModelToCostItem(CostItem costItem, CostItemPatchViewModel model)
+            {
+                costItem.Amount = model.Amount;
+                costItem.CostTypeId = model.CostTypeId;
+                costItem.ItemName = model.ItemName;
+                costItem.DateUsed = model.DateUsed;
+            }
         }
 
         [HttpOptions]

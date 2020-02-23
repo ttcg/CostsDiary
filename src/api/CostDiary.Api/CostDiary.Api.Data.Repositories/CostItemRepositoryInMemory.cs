@@ -9,7 +9,7 @@ namespace CostsDiary.Api.Data.Repositories
 {
     public class CostItemsRepositoryInMemory : ICostItemsRepository
     {
-        private IList<CostItem> _costItems;
+        private List<CostItem> _costItems;
 
         public CostItemsRepositoryInMemory()
         {
@@ -89,7 +89,31 @@ namespace CostsDiary.Api.Data.Repositories
                 }
             };
         }
-        
+
+        public async Task<CostItem> Add(CostItem costItem)
+        {
+            return await Task.Run(() =>
+            {
+                if (costItem.CostItemId == Guid.Empty)
+                    costItem.CostItemId = Guid.NewGuid();
+
+                _costItems.Add(costItem);
+                return costItem;
+            });
+        }
+
+        public async Task Update(CostItem costItem)
+        {
+            await Task.Run(() =>
+            {
+                var idx = _costItems.FindIndex(x => x.CostItemId == costItem.CostItemId);
+
+                if (idx == -1)
+                    throw new KeyNotFoundException();
+
+                _costItems[idx] = costItem;
+            });
+        }
 
         public async Task<IEnumerable<CostItem>> GetAll()
         {

@@ -9,5 +9,7 @@ namespace CostDiary.Api.Data.Repositories
     {
         Task<IEnumerable<CostItem>> GetAll();
         Task<CostItem> GetById(Guid id);
+        Task<CostItem> Add(CostItem costItem);
+        Task Update(CostItem costItem);
     }
 }

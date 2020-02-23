@@ -1,10 +1,13 @@
 using CostDiary.Api.Data.Repositories;
 using CostsDiary.Api.Data.Repositories;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json.Serialization;
+using System.Reflection;
 
 namespace CostDiary.Api.Web
 {
@@ -26,7 +29,12 @@ namespace CostDiary.Api.Web
             services.AddControllers(options =>
             {
                 options.ReturnHttpNotAcceptable = true;
-            });
+            })
+                .AddNewtonsoftJson(options =>
+                {
+                    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                })
+                .AddFluentValidation(options => options.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
