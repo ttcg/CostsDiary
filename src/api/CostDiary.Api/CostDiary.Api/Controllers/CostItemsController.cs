@@ -98,6 +98,7 @@ namespace CostsDiary.Api.Web.Controllers
                 });
         }
 
+        // PATCH: api/CostItems/{id}
         [HttpPatch("{id}")]
         public async Task<IActionResult> Update(Guid id, [FromBody] JsonPatchDocument<CostItemPatchViewModel> patchDocument)
         {
@@ -141,6 +142,20 @@ namespace CostsDiary.Api.Web.Controllers
                 costItem.ItemName = model.ItemName;
                 costItem.DateUsed = model.DateUsed;
             }
+        }
+
+        // DELETE: api/CostItems/{id}
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var record = await _costItemsRepository.GetById(id);
+
+            if (record == null)
+                return NotFound();
+
+            await _costItemsRepository.Delete(id);
+
+            return NoContent();
         }
 
         [HttpOptions]

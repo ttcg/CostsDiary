@@ -130,5 +130,18 @@ namespace CostsDiary.Api.Data.Repositories
                 return _costItems.SingleOrDefault(c => c.CostItemId == id);
             });
         }
+
+        public async Task Delete(Guid id)
+        {
+            await Task.Run(() =>
+            {
+                var idx = _costItems.FindIndex(x => x.CostItemId == id);
+
+                if (idx == -1)
+                    throw new KeyNotFoundException();
+
+                _costItems.Remove(_costItems[idx]);
+            });
+        }
     }
 }
