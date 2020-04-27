@@ -18,9 +18,33 @@ namespace CostsDiary.Api.Data.Repositories
                 new CostItem
                 {
                     CostItemId = Guid.NewGuid(),
+                    ItemName = "Aldi",
+                    CostTypeId = new Guid("a10b83aa-795a-460a-b0a1-0b051871f46c"),
+                    DateUsed = DateTime.Now.Date,
+                    Amount = 20.25m
+                },
+                new CostItem
+                {
+                    CostItemId = Guid.NewGuid(),
                     ItemName = "Sainsbury",
                     CostTypeId = new Guid("a10b83aa-795a-460a-b0a1-0b051871f46c"),
-                    DateUsed = new DateTime(2020, 1, 2),
+                    DateUsed = DateTime.Now.AddDays(-1).Date,
+                    Amount = 35.40m
+                },
+                new CostItem
+                {
+                    CostItemId = Guid.NewGuid(),
+                    ItemName = "Holland & Barretts",
+                    CostTypeId = new Guid("a10b83aa-795a-460a-b0a1-0b051871f46c"),
+                    DateUsed = DateTime.Now.AddDays(-5).Date,
+                    Amount = 12.34m
+                },
+                new CostItem
+                {
+                    CostItemId = Guid.NewGuid(),
+                    ItemName = "Sainsbury",
+                    CostTypeId = new Guid("a10b83aa-795a-460a-b0a1-0b051871f46c"),
+                    DateUsed = DateTime.Now.AddMonths(-1).Date,
                     Amount = 19.24m
                 },
                 new CostItem
