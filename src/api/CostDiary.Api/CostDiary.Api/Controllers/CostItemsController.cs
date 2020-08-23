@@ -36,7 +36,7 @@ namespace CostsDiary.Api.Web.Controllers
             {
                 CostItemId = item.CostItemId,
                 ItemName = item.ItemName,
-                CostType = GetCostTypeViewModel(costTypes, item.CostTypeId),
+                CostType = AdaptToCostTypeViewModel(costTypes, item.CostTypeId),
                 Amount = item.Amount,
                 DateUsed = item.DateUsed
             })
@@ -61,7 +61,7 @@ namespace CostsDiary.Api.Web.Controllers
             {
                 CostItemId = record.CostItemId,
                 ItemName = record.ItemName,
-                CostType = GetCostTypeViewModel(costTypes, record.CostTypeId),
+                CostType = AdaptToCostTypeViewModel(costTypes, record.CostTypeId),
                 Amount = record.Amount,
                 DateUsed = record.DateUsed
             });
@@ -84,7 +84,7 @@ namespace CostsDiary.Api.Web.Controllers
             if (costTypes.Any(x => x.CostTypeId == model.CostTypeId) == false)
                 return NotFound("CostTypeId does not exist");
 
-            var record = await _costItemsRepository.Add(entity);            
+            var record = await _costItemsRepository.Add(entity);
 
             return CreatedAtRoute("GetById",
                 new { Id = record.CostItemId },
@@ -92,7 +92,7 @@ namespace CostsDiary.Api.Web.Controllers
                 {
                     CostItemId = record.CostItemId,
                     ItemName = record.ItemName,
-                    CostType = GetCostTypeViewModel(costTypes, record.CostTypeId),
+                    CostType = AdaptToCostTypeViewModel(costTypes, record.CostTypeId),
                     Amount = record.Amount,
                     DateUsed = record.DateUsed
                 });
@@ -165,7 +165,38 @@ namespace CostsDiary.Api.Web.Controllers
             return Ok();
         }
 
-        private CostTypeViewModel GetCostTypeViewModel(IEnumerable<CostType> costTypes, Guid costTypeId)
+        // POST: api/CostItems/reset
+        [HttpPost("reset")]
+        public async Task<ActionResult> Reset()
+        {
+            await _costItemsRepository.Reset();
+
+            return NoContent();
+        }
+
+        // GET: api/CostItems/filter
+        [HttpGet("filter")]
+        public async Task<ActionResult> Filter([FromQuery] int year, [FromQuery] int month)
+        {
+            var costItems = await _costItemsRepository.GetRecordsByFilter(year, month);
+
+            var costTypes = await _costTypesRepository.GetAll();
+
+            var viewModels = costItems.Select(item => new CostItemViewModel
+            {
+                CostItemId = item.CostItemId,
+                ItemName = item.ItemName,
+                CostType = AdaptToCostTypeViewModel(costTypes, item.CostTypeId),
+                Amount = item.Amount,
+                DateUsed = item.DateUsed
+            })
+                .OrderBy(x => x.DateUsed)
+                .ToList();
+
+            return Ok(viewModels);
+        }
+
+        private CostTypeViewModel AdaptToCostTypeViewModel(IEnumerable<CostType> costTypes, Guid costTypeId)
         {
             var costType = costTypes.SingleOrDefault(c => c.CostTypeId == costTypeId);
 
