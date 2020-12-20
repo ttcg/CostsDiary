@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace CostDiary.Api.Data.Repositories
 {
-    public interface ICostTypesRepository
+    public interface ICostTypesRepository : IRepository<CostType>
     {
-        Task<IEnumerable<CostType>> GetAll();
-        Task<CostType> GetById(Guid id);
+
     }
 }

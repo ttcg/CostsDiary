@@ -4,6 +4,7 @@ using System.Linq;
 using CostDiary.Api.Data.Repositories;
 using System;
 using CostsDiary.Api.Data.Entities;
+using System.Linq.Expressions;
 
 namespace CostsDiary.Api.Data.Repositories
 {
@@ -57,7 +58,21 @@ namespace CostsDiary.Api.Data.Repositories
                 }
             };
         }
-        
+
+        public Task<CostType> Add(CostType entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task Delete(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<CostType>> Fetch(Expression<Func<CostType, bool>> expression)
+        {
+            throw new NotImplementedException();
+        }
 
         public async Task<IEnumerable<CostType>> GetAll()
         {
@@ -73,6 +88,11 @@ namespace CostsDiary.Api.Data.Repositories
             {
                 return _costTypes.SingleOrDefault(c => c.CostTypeId == id);
             });
+        }
+
+        public Task Update(CostType entity)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29728.190
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CostsDiary.Api.Web", "CostDiary.Api\CostsDiary.Api.Web.csproj", "{09DCAFB0-9E9B-469A-AC39-3E1DC5D7F03E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CostsDiary.Api.Web", "CostDiary.Api\CostsDiary.Api.Web.csproj", "{09DCAFB0-9E9B-469A-AC39-3E1DC5D7F03E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CostsDiary.Api.Data.Entities", "CostDiary.Api.Data.Entities\CostsDiary.Api.Data.Entities.csproj", "{F3CC27CD-8D1D-4489-B6BD-85BB06F77DE4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CostsDiary.Api.Data.Entities", "CostDiary.Api.Data.Entities\CostsDiary.Api.Data.Entities.csproj", "{F3CC27CD-8D1D-4489-B6BD-85BB06F77DE4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CostsDiary.Api.Data.Repositories", "CostDiary.Api.Data.Repositories\CostsDiary.Api.Data.Repositories.csproj", "{68957074-AD68-4F09-A54F-5138342FCBC2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CostsDiary.Api.Data.Repositories", "CostDiary.Api.Data.Repositories\CostsDiary.Api.Data.Repositories.csproj", "{68957074-AD68-4F09-A54F-5138342FCBC2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CostsDiary.Api.UnitTests", "CostsDiary.Api.UnitTests\CostsDiary.Api.UnitTests.csproj", "{C22D42E3-FD08-436C-89A0-3932753CF6E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{68957074-AD68-4F09-A54F-5138342FCBC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{68957074-AD68-4F09-A54F-5138342FCBC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{68957074-AD68-4F09-A54F-5138342FCBC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C22D42E3-FD08-436C-89A0-3932753CF6E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C22D42E3-FD08-436C-89A0-3932753CF6E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C22D42E3-FD08-436C-89A0-3932753CF6E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C22D42E3-FD08-436C-89A0-3932753CF6E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
