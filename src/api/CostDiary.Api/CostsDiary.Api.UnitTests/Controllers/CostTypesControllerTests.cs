@@ -81,7 +81,7 @@ namespace CostsDiary.Api.UnitTests.Controllers
             var okObjectResult = result.Result.Should().BeOfType<OkObjectResult>().Subject;
 
             var viewModel = okObjectResult.Value.Should().BeOfType<CostTypeViewModel>().Subject;
-            viewModel.CostTypeId.Should().Be(costTypes.First().CostTypeId);
+            viewModel.CostTypeId.Should().Be(costTypeId);
             viewModel.CostTypeName.Should().Be(costTypes.First().CostTypeName);
         }
 
@@ -89,16 +89,11 @@ namespace CostsDiary.Api.UnitTests.Controllers
         public void GetOptions_ShouldReturnCorrectHeaders()
         {
             // arrange
-            var httpContext = new DefaultHttpContext();
-
-            controller = new CostTypesController(costTypeRepositoryMock.Object)
+            controller.ControllerContext = new ControllerContext()
             {
-                ControllerContext = new ControllerContext()
-                {
-                    HttpContext = httpContext
-                }
+                HttpContext = new DefaultHttpContext()
             };
-            
+
             // act
             var result = controller.GetOptions();
 

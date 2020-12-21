@@ -53,7 +53,7 @@ namespace CostsDiary.Api.Web.Controllers
             var record = await _costItemsRepository.GetById(id);
 
             if (record == null)
-                return NotFound();
+                return NotFound($"The given id: {id} is not found");
 
             var costTypes = await _costTypesRepository.GetAll();
 
@@ -176,7 +176,7 @@ namespace CostsDiary.Api.Web.Controllers
 
         // GET: api/CostItems/filter
         [HttpGet("filter")]
-        public async Task<ActionResult> Filter([FromQuery] int year, [FromQuery] int month)
+        public async Task<ActionResult<IEnumerable<CostItemViewModel>>> Filter([FromQuery] int year, [FromQuery] int month)
         {
             var costItems = await _costItemsRepository.GetRecordsByFilter(year, month);
 
