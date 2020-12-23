@@ -7,6 +7,7 @@ using CostsDiary.Api.Data.Entities;
 using CostsDiary.Api.Web.ViewModels;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace CostsDiary.Api.Web.Controllers
 {
@@ -26,6 +27,8 @@ namespace CostsDiary.Api.Web.Controllers
 
         // GET: api/CostItems
         [HttpGet]
+        [Obsolete]
+        [SwaggerOperation("Please use /filter route instead.")]
         public async Task<ActionResult<IEnumerable<CostItemViewModel>>> Get()
         {
             var results = await _costItemsRepository.GetAll();

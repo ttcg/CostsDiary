@@ -41,7 +41,7 @@ namespace CostsDiary.Api.UnitTests.Controllers
 
             costItemsFaker = new Faker<CostItem>()
                 .RuleFor(x => x.CostItemId, f => f.Random.Guid())
-                .RuleFor(x => x.CostTypeId, f => f.PickRandom(costTypes).CostTypeId) // costTypes[y.Random.Number(0, 2)].CostTypeId);
+                .RuleFor(x => x.CostTypeId, f => f.PickRandom(costTypes).CostTypeId) 
                 .RuleFor(x => x.DateUsed, f => f.Date.Past(1, DateTime.Now))
                 .RuleFor(x => x.ItemName, f => f.Commerce.ProductName())
                 .RuleFor(x => x.Amount, f => f.Finance.Amount(max: 50));

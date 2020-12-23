@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
 using System.Reflection;
 
@@ -25,6 +26,14 @@ namespace CostDiary.Api.Web
         {
             services.AddSingleton<ICostTypesRepository, CostTypesRepositoryInMemory>();
             services.AddSingleton<ICostItemsRepository, CostItemsRepositoryInMemory>();
+
+            services.AddMvc();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "CostDiary Apis", Version = "v1" });
+                c.EnableAnnotations();
+            });
 
             services.AddControllers(options =>
             {
@@ -50,6 +59,13 @@ namespace CostDiary.Api.Web
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Cost Diary Api");
+            });
 
             app.UseEndpoints(endpoints =>
             {

@@ -10,4 +10,4 @@ reportgenerator -reports:.\TestResults\**\coverage.cobertura.xml -targetdir:.\Co
 
 start chrome .\CodeCoverage\index.htm
 
-pause
+sleep 5

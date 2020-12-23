@@ -9,7 +9,7 @@ namespace CostsDiary.Api.Web.Validators
 		public CostItemPatchValidator()
 		{
 			RuleFor(x => x.CostTypeId).NotEmpty();
-			RuleFor(x => x.ItemName).Length(3, 50);
+			RuleFor(x => x.ItemName).NotEmpty().Length(3, 50);
 			RuleFor(x => x.DateUsed).NotEmpty().LessThan(DateTime.Now.Date.AddDays(1));
 			RuleFor(x => x.Amount).InclusiveBetween(1, 10000);
 		}    
