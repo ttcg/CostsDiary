@@ -14,6 +14,9 @@ namespace CostsDiary.Api.Data.Repositories
         public CostItemsRepositoryInMemory()
         {
             _costItems = GetDataSeedingItems();
+
+            // set hardcoded id for Predictable Unit Tests
+            _costItems.First().CostItemId = new Guid("d6b3de6f-9f64-4edf-9422-0a258d620a4b");
         }
 
         public async Task<CostItem> Add(CostItem costItem)

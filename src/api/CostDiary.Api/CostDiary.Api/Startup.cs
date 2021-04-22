@@ -1,11 +1,16 @@
 using CostDiary.Api.Data.Repositories;
 using CostsDiary.Api.Data.Repositories;
+using CostsDiary.Api.Web.GraphQL.Schemas;
 using FluentValidation.AspNetCore;
+using GraphQL.MicrosoftDI;
+using GraphQL.Server;
+using GraphQL.Types;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Serialization;
 using System.Reflection;
@@ -27,6 +32,8 @@ namespace CostDiary.Api.Web
             services.AddSingleton<ICostTypesRepository, CostTypesRepositoryInMemory>();
             services.AddSingleton<ICostItemsRepository, CostItemsRepositoryInMemory>();
 
+            services.AddLogging(builder => builder.AddConsole());
+
             services.AddMvc();
 
             services.AddSwaggerGen(c =>
@@ -44,6 +51,17 @@ namespace CostDiary.Api.Web
                     options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 })
                 .AddFluentValidation(options => options.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
+
+            services.AddHealthChecks();
+
+            services.AddSingleton<ISchema, CostDiarySchema>(services => new CostDiarySchema(new SelfActivatingServiceProvider(services)));
+
+            services.AddGraphQL(options =>
+                {
+                    options.EnableMetrics = true;
+                })
+                .AddErrorInfoProvider(opt => opt.ExposeExceptionStackTrace = true)
+                .AddSystemTextJson();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,8 +78,10 @@ namespace CostDiary.Api.Web
 
             app.UseAuthorization();
 
-            app.UseSwagger();
+            app.UseGraphQL<ISchema>();
+            app.UseGraphQLPlayground();         
 
+            app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Cost Diary Api");
@@ -69,6 +89,7 @@ namespace CostDiary.Api.Web
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHealthChecks("/health");
                 endpoints.MapControllers();
             });
         }
