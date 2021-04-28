@@ -1,10 +1,9 @@
 using CostDiary.Api.Data.Repositories;
 using CostsDiary.Api.Data.Repositories;
-using CostsDiary.Api.Web.GraphQL.Schemas;
+using CostsDiary.Api.Web.Configurations;
 using FluentValidation.AspNetCore;
-using GraphQL.MicrosoftDI;
-using GraphQL.Server;
-using GraphQL.Types;
+using IdentityModel;
+using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -52,16 +51,19 @@ namespace CostDiary.Api.Web
                 })
                 .AddFluentValidation(options => options.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
 
-            services.AddHealthChecks();
+            services.AddHealthChecks();            
 
-            services.AddSingleton<ISchema, CostDiarySchema>(services => new CostDiarySchema(new SelfActivatingServiceProvider(services)));
-
-            services.AddGraphQL(options =>
+            services.AddAuthentication(
+                IdentityServerAuthenticationDefaults.AuthenticationScheme)
+                .AddIdentityServerAuthentication(options =>
                 {
-                    options.EnableMetrics = true;
-                })
-                .AddErrorInfoProvider(opt => opt.ExposeExceptionStackTrace = true)
-                .AddSystemTextJson();
+                    options.Authority = "https://demo.identityserver.io/";
+                    options.ApiName = "api";
+                    options.ApiSecret = "secret";
+                    options.NameClaimType = JwtClaimTypes.Subject;
+                });
+
+            services.AddGraphQLService();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -76,10 +78,11 @@ namespace CostDiary.Api.Web
 
             app.UseRouting();
 
+            app.UseAuthentication();
+
             app.UseAuthorization();
 
-            app.UseGraphQL<ISchema>();
-            app.UseGraphQLPlayground();         
+            app.UseGraphQLApplication();
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>

@@ -21,6 +21,7 @@ namespace CostsDiary.Api.Web.GraphQL.Queries
 
             SetUpCostTypeQueries(costTypesRepository);
             SetUpCostItemQueries(costItemsRepository, costTypesRepository);
+            SetUpSecuredQueries();
 
         }
 
@@ -43,13 +44,12 @@ namespace CostsDiary.Api.Web.GraphQL.Queries
 
             FieldAsync<ListGraphType<CostTypeType>>(
                 "costTypes",
-                arguments: new QueryArguments(new List<QueryArgument>
-                {
+                arguments: new QueryArguments(
                     new QueryArgument<GuidGraphType>
                     {
                         Name = "id"
                     }
-                }),
+                ),
                 resolve: async (context) =>
                 {
                     var costTypeId = context.GetArgument<Guid?>("id");
@@ -123,7 +123,7 @@ namespace CostsDiary.Api.Web.GraphQL.Queries
 
                         var costTypes = (await costTypesRepository.GetAll()).ToList();
 
-                        return results.Select(x => ConvertEntityToViewModel(x, costTypes));
+                        return results.Select(x => ConvertEntityToViewModel(x, costTypes)).OrderByDescending(x => x.DateUsed);
                     }
 
                     //throw new ExecutionError("year and month must be provided");
@@ -153,6 +153,21 @@ namespace CostsDiary.Api.Web.GraphQL.Queries
                 DateUsed = model.DateUsed
             };
         }
-    }
+
+        private void SetUpSecuredQueries()
+        {
+            Field<SecuredDataGraphType>(                
+                "secured",
+                resolve: (context) =>
+                {
+                    return new SecuredDataType
+                    {
+                        Id = "Id123",
+                        Description = "Some Description",
+                        Code = "Secured Special Code"
+                    };
+                });
+        }
+}
 
 }
